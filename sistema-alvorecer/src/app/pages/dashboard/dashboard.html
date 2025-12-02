@@ -1,0 +1,255 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white px-4 py-3 mb-4 shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+      <div class="bg-warning bg-opacity-25 rounded-circle p-2 text-warning">
+        <i class="bi bi-sunrise-fill fs-5"></i>
+      </div>
+      <span class="fw-bold text-success">Sistema Alvorecer</span>
+    </a>
+    
+    <div class="position-relative">
+      
+      <div class="d-flex align-items-center gap-3 p-2 rounded hover-effect" 
+           (click)="toggleMenu()" 
+           style="cursor: pointer; transition: background 0.2s;">
+        
+        <div class="text-end d-none d-md-block lh-1">
+          <span class="d-block fw-bold small">Dr. João Silva</span>
+          <small class="text-success" style="font-size: 0.75rem;">Médico Plantonista</small>
+        </div>
+        
+        <div class="position-relative">
+          <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center border border-2 border-white shadow-sm" style="width: 40px; height: 40px;">
+            JS
+          </div>
+          <span *ngIf="textoPlantao" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+        </div>
+
+        <i class="bi bi-chevron-down small text-muted"></i>
+      </div>
+
+      <div *ngIf="menuAberto" 
+           class="dropdown-menu show position-absolute end-0 mt-2 shadow border-0 p-2" 
+           style="min-width: 240px; z-index: 1000;">
+        
+        <div class="px-3 py-2 border-bottom mb-2">
+          <p class="mb-0 fw-bold text-dark">Dr. João Silva</p>
+          <small class="text-muted">crm@alvorecer.com</small>
+        </div>
+
+        <a class="dropdown-item rounded py-2 d-flex align-items-center gap-2" href="#">
+          <i class="bi bi-person text-primary"></i> Meu Perfil
+        </a>
+        <a class="dropdown-item rounded py-2 d-flex align-items-center gap-2" href="#">
+          <i class="bi bi-gear text-secondary"></i> Configurações
+        </a>
+        
+        <div class="dropdown-divider my-2"></div>
+        
+        <a class="dropdown-item rounded py-2 d-flex justify-content-between align-items-center" 
+           style="cursor: pointer;"
+           (click)="abrirPlantao(); toggleMenu()">
+           <div class="d-flex align-items-center gap-2">
+             <i class="bi bi-clipboard-data text-success"></i> 
+             <span class="fw-bold text-success">Passagem de Plantão</span>
+           </div>
+           <span *ngIf="textoPlantao" class="badge bg-danger rounded-circle p-1" style="width: 8px; height: 8px;"></span>
+        </a>
+
+        <div class="dropdown-divider my-2"></div>
+        
+        <a class="dropdown-item rounded py-2 d-flex align-items-center gap-2 text-danger" 
+           style="cursor: pointer;" (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i> Sair da Conta
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container px-4">
+  <h4 class="mb-4 text-success fw-bold">Painel de Controle</h4>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-3">
+      <div class="card-custom p-3 h-100 d-flex flex-row justify-content-between align-items-center"
+           routerLink="/pacientes"
+           style="cursor: pointer; transition: transform 0.2s;"
+           onmouseover="this.style.transform='scale(1.03)'"
+           onmouseout="this.style.transform='scale(1)'">
+        <div>
+          <p class="text-muted mb-1 small">Pacientes Ativos</p>
+          <h3 class="fw-bold m-0 text-dark">12</h3>
+        </div>
+        <div class="bg-success bg-opacity-10 text-success p-3 rounded-3">
+          <i class="bi bi-people-fill fs-4"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card-custom p-3 h-100 d-flex flex-row justify-content-between align-items-center"
+           routerLink="/consultas"
+           style="cursor: pointer; transition: transform 0.2s;"
+           onmouseover="this.style.transform='scale(1.03)'"
+           onmouseout="this.style.transform='scale(1)'">
+        <div>
+          <p class="text-muted mb-1 small">Consultas Hoje</p>
+          <h3 class="fw-bold m-0 text-dark">5</h3>
+        </div>
+        <div class="bg-warning bg-opacity-10 text-warning p-3 rounded-3">
+          <i class="bi bi-calendar-check-fill fs-4"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card-custom p-3 h-100 d-flex flex-row justify-content-between align-items-center"
+           routerLink="/estoque"
+           style="cursor: pointer; transition: transform 0.2s;"
+           onmouseover="this.style.transform='scale(1.03)'"
+           onmouseout="this.style.transform='scale(1)'">
+        <div>
+          <p class="text-muted mb-1 small">Estoque/Farmácia</p>
+          <h3 class="fw-bold m-0 text-dark">Alerta (2)</h3>
+        </div>
+        <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-3">
+          <i class="bi bi-capsule fs-4"></i>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-3">
+      <div class="card-custom p-3 h-100 d-flex flex-row justify-content-between align-items-center"
+           routerLink="/cuidados"
+           style="cursor: pointer; transition: transform 0.2s;"
+           onmouseover="this.style.transform='scale(1.03)'"
+           onmouseout="this.style.transform='scale(1)'">
+        <div>
+          <p class="text-muted mb-1 small">Cuidados Especiais</p>
+          <h3 class="fw-bold m-0 text-dark">3</h3>
+        </div>
+        <div class="bg-danger bg-opacity-10 text-danger p-3 rounded-3">
+          <i class="bi bi-heart-pulse-fill fs-4"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-7">
+      <div class="card-custom h-100 p-4">
+        <h5 class="fw-bold text-success mb-3">Pacientes Recentes</h5>
+        
+        <div class="d-flex justify-content-between align-items-center p-3 mb-3 bg-light rounded-3 border-start border-4 border-success"
+             [routerLink]="['/prontuario', 1]"
+             style="cursor: pointer; transition: transform 0.2s;"
+             onmouseover="this.style.transform='scale(1.02)'; this.style.backgroundColor='#e8f5e9'"
+             onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='#f8f9fa'">
+          <div>
+            <h6 class="m-0 fw-bold text-dark">Maria Silva Santos</h6>
+            <small class="text-muted">Leito 104 • Admissão: 20/09/2025</small>
+          </div>
+          <span class="badge bg-success bg-opacity-25 text-success rounded-pill px-3">Estável</span>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center p-3 mb-3 bg-light rounded-3 border-start border-4 border-warning"
+             [routerLink]="['/prontuario', 2]"
+             style="cursor: pointer; transition: transform 0.2s;"
+             onmouseover="this.style.transform='scale(1.02)'; this.style.backgroundColor='#fff3cd'"
+             onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='#f8f9fa'">
+          <div>
+            <h6 class="m-0 fw-bold text-dark">João Pedro Oliveira</h6>
+            <small class="text-muted">Leito 102 • Admissão: 15/10/2025</small>
+          </div>
+          <span class="badge bg-warning bg-opacity-25 text-warning rounded-pill px-3">Atenção</span>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center p-3 mb-0 bg-light rounded-3 border-start border-4 border-danger"
+             [routerLink]="['/prontuario', 3]"
+             style="cursor: pointer; transition: transform 0.2s;"
+             onmouseover="this.style.transform='scale(1.02)'; this.style.backgroundColor='#f8d7da'"
+             onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='#f8f9fa'">
+          <div>
+            <h6 class="m-0 fw-bold text-dark">Antônio Carlos</h6>
+            <small class="text-muted">Leito 101 • Admissão: 01/11/2025</small>
+          </div>
+          <span class="badge bg-danger bg-opacity-25 text-danger rounded-pill px-3">Crítico</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div class="card-custom h-100 p-4">
+        <h5 class="fw-bold text-success mb-3">Agenda do Plantão</h5>
+        
+        <div class="vstack gap-3">
+          <div class="d-flex gap-3 align-items-center">
+            <div class="bg-light p-2 rounded text-center" style="min-width: 60px;">
+              <span class="d-block fw-bold text-dark">10:00</span>
+            </div>
+            <div>
+              <span class="d-block fw-bold small">Avaliação de Dor</span>
+              <small class="text-muted">Maria Silva Santos</small>
+            </div>
+          </div>
+          <hr class="m-0 text-muted opacity-25">
+
+          <div class="d-flex gap-3 align-items-center">
+            <div class="bg-light p-2 rounded text-center" style="min-width: 60px;">
+              <span class="d-block fw-bold text-dark">11:30</span>
+            </div>
+            <div>
+              <span class="d-block fw-bold small">Medicação (Morfina)</span>
+              <small class="text-muted">João Pedro Oliveira</small>
+            </div>
+          </div>
+          <hr class="m-0 text-muted opacity-25">
+
+          <div class="d-flex gap-3 align-items-center">
+            <div class="bg-light p-2 rounded text-center" style="min-width: 60px;">
+              <span class="d-block fw-bold text-dark">14:00</span>
+            </div>
+            <div>
+              <span class="d-block fw-bold small">Visita Familiar</span>
+              <small class="text-muted">Antônio Carlos</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="modalPlantaoAberto" class="modal-overlay" (click)="fecharPlantao()">
+  <div class="modal-content-custom" (click)="$event.stopPropagation()">
+    
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="fw-bold text-success m-0">
+        <i class="bi bi-journal-medical me-2"></i>Passagem de Plantão
+      </h5>
+      <button class="btn-close" (click)="fecharPlantao()"></button>
+    </div>
+
+    <div class="alert alert-warning small py-2">
+      <i class="bi bi-clock-history me-1"></i>
+      Última atualização: <strong>{{ ultimaAtualizacao || 'Nunca' }}</strong>
+    </div>
+
+    <p class="small text-muted mb-1">Anote pendências e observações para o próximo médico:</p>
+    
+    <textarea class="form-control mb-3 bg-light" rows="8" 
+              placeholder="Ex: Leito 104 apresentou febre noturna. Ficar atento à analgesia..."
+              [(ngModel)]="textoPlantao"></textarea>
+
+    <div class="d-flex justify-content-end gap-2">
+      <button class="btn btn-light" (click)="fecharPlantao()">Cancelar</button>
+      <button class="btn btn-success" (click)="salvarPlantao()">
+        <i class="bi bi-save me-2"></i>Salvar Notas
+      </button>
+    </div>
+
+  </div>
+</div>

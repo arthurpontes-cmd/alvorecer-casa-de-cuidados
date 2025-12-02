@@ -1,0 +1,76 @@
+<nav class="navbar navbar-expand-lg bg-white px-4 py-3 mb-4 shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/dashboard" style="cursor: pointer;">
+      <div class="bg-warning bg-opacity-25 rounded-circle p-2 text-warning">
+        <i class="bi bi-sunrise-fill fs-5"></i>
+      </div>
+      <span class="fw-bold text-success">Sistema Alvorecer</span>
+    </a>
+  </div>
+</nav>
+
+<div class="container px-4 pb-5">
+  
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <button routerLink="/pacientes" class="btn btn-light rounded-circle shadow-sm" style="width: 40px; height: 40px;">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    <h4 class="text-success fw-bold m-0">Novo Paciente</h4>
+  </div>
+
+  <div class="card-custom p-4">
+    <form (ngSubmit)="salvar()">
+      
+      <div class="row g-4">
+        <div class="col-md-6">
+          <h5 class="fw-bold text-success mb-3 border-bottom pb-2">Dados Pessoais</h5>
+          
+          <div class="mb-3">
+            <label class="form-label small fw-bold text-muted">Nome Completo</label>
+            <input type="text" class="form-control" placeholder="Ex: José da Silva" name="nome" [(ngModel)]="nome">
+          </div>
+
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label class="form-label small fw-bold text-muted">Idade</label>
+              <input type="number" class="form-control" placeholder="Ex: 82" name="idade" [(ngModel)]="idade">
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label small fw-bold text-muted">Quarto/Leito</label>
+              <input type="text" class="form-control" placeholder="Ex: 105" name="quarto" [(ngModel)]="quarto">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <h5 class="fw-bold text-success mb-3 border-bottom pb-2">Situação Clínica</h5>
+          
+          <div class="mb-3">
+            <label class="form-label small fw-bold text-muted">Diagnóstico Principal</label>
+            <input type="text" class="form-control" placeholder="Ex: CA Pulmão" name="diagnostico" [(ngModel)]="diagnostico">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-bold text-muted">Status Inicial</label>
+            <select class="form-select form-control" name="status" [(ngModel)]="status">
+              <option value="Estável">Estável</option>
+              <option value="Atenção">Atenção</option>
+              <option value="Crítico">Crítico</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label small fw-bold text-muted">Observações da Entrada</label>
+          <textarea class="form-control" rows="3" placeholder="Detalhes sobre o estado do paciente na chegada..." name="obs" [(ngModel)]="obs"></textarea>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+        <button type="button" routerLink="/pacientes" class="btn btn-light px-4">Cancelar</button>
+        <button type="submit" class="btn btn-success px-4">Confirmar Paciente</button>
+      </div>
+
+    </form>
+  </div>
+</div>

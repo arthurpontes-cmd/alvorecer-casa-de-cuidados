@@ -1,0 +1,89 @@
+<nav class="navbar navbar-expand-lg bg-white px-4 py-3 mb-4 shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/dashboard" style="cursor: pointer;">
+      <div class="bg-warning bg-opacity-25 rounded-circle p-2 text-warning">
+        <i class="bi bi-sunrise-fill fs-5"></i>
+      </div>
+      <span class="fw-bold text-success">Sistema Alvorecer</span>
+    </a>
+  </div>
+</nav>
+
+<div class="container px-4 pb-5">
+  
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
+    <div class="d-flex align-items-center gap-3">
+      <button routerLink="/dashboard" class="btn btn-light rounded-circle shadow-sm" style="width: 40px; height: 40px;">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <div>
+        <h4 class="text-success fw-bold m-0">Farmácia & Estoque</h4>
+        <small class="text-muted">Controle de dispensação</small>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 w-100 w-md-auto">
+      <input type="text" 
+             class="form-control" 
+             placeholder="Buscar medicamento..." 
+             [(ngModel)]="termoBusca" 
+             (input)="filtrar()">
+             
+      <button class="btn btn-success text-nowrap" routerLink="/estoque/novo"> 
+        <i class="bi bi-plus-lg me-2"></i>Novo Item 
+      </button>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    
+    <div class="col-md-6 col-lg-4" *ngFor="let item of listaFiltrada">
+      <div class="card-custom h-100 p-4">
+        
+        <div class="d-flex justify-content-between mb-2">
+          <h5 class="fw-bold text-dark mb-0">{{ item.nome }}</h5>
+          <span class="badge rounded-pill" 
+                [ngClass]="{
+                  'bg-success': item.nivel === 'Alto',
+                  'bg-warning text-dark': item.nivel === 'Médio',
+                  'bg-danger': item.nivel === 'Baixo'
+                }">
+            {{ item.categoria }}
+          </span>
+        </div>
+        <p class="text-muted small mb-3">{{ item.descricao }}</p>
+
+        <div class="d-flex justify-content-between small fw-bold mb-1">
+          <span [class.text-danger]="item.qtd < 20">Estoque: {{ item.qtd }} un</span>
+          <span class="text-muted">Meta: 100</span>
+        </div>
+        
+        <div class="progress mb-3" style="height: 8px;">
+          <div class="progress-bar rounded-pill" role="progressbar" 
+               [style.width.%]="item.qtd"
+               [ngClass]="{
+                 'bg-success': item.qtd > 50,
+                 'bg-warning': item.qtd <= 50 && item.qtd > 20,
+                 'bg-danger': item.qtd <= 20
+               }">
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+          <small class="text-muted fst-italic">Validade: {{ item.validade }}</small>
+          <button class="btn btn-sm btn-outline-success rounded-circle" 
+          style="width: 32px; height: 32px;"
+          (click)="alterarValidade(item)">
+          <i class="bi bi-pencil-fill small"></i>
+        </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="listaFiltrada.length === 0" class="text-center py-5 text-muted">
+    <i class="bi bi-search fs-1 mb-3 d-block opacity-50"></i>
+    <h5>Nenhum item encontrado.</h5>
+  </div>
+
+</div>

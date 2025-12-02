@@ -1,0 +1,88 @@
+<nav class="navbar navbar-expand-lg bg-white px-4 py-3 mb-4 shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/dashboard" style="cursor: pointer;">
+      <div class="bg-warning bg-opacity-25 rounded-circle p-2 text-warning">
+        <i class="bi bi-sunrise-fill fs-5"></i>
+      </div>
+      <span class="fw-bold text-success">Sistema Alvorecer</span>
+    </a>
+  </div>
+</nav>
+
+<div class="container px-4 pb-5">
+  
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <button routerLink="/pacientes" class="btn btn-light rounded-circle shadow-sm" style="width: 40px; height: 40px;">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    <h4 class="text-success fw-bold m-0">Nova Prescrição Médica</h4>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      
+      <div class="card-custom p-5 border shadow-sm">
+        
+        <div class="text-center border-bottom pb-4 mb-4">
+          <h5 class="fw-bold text-success text-uppercase">Receituário Médico</h5>
+          <small class="text-muted">Casa de Cuidados Paliativos Uyramir Filho</small>
+        </div>
+
+        <form (ngSubmit)="imprimir()">
+          
+          <div class="mb-4">
+            <label class="form-label fw-bold text-dark">Paciente</label>
+            <select class="form-select form-control bg-light" name="paciente" [(ngModel)]="pacienteSelecionado">
+              <option value="" disabled selected>Selecione o paciente...</option>
+              <option *ngFor="let p of pacientes" [value]="p">{{ p }}</option>
+            </select>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-8">
+              <label class="form-label fw-bold text-dark">Medicamento</label>
+              <select class="form-select form-control" name="med" [(ngModel)]="medicamento">
+                <option value="Morfina 10mg">Morfina 10mg (Ampola)</option>
+                <option value="Dipirona 500mg">Dipirona 500mg</option>
+                <option value="Omeprazol 20mg">Omeprazol 20mg</option>
+                <option value="Soro Fisiológico">Soro Fisiológico 0.9%</option>
+                <option value="Tramadol 50mg">Tramadol 50mg</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold text-dark">Via</label>
+              <select class="form-select form-control" name="via" [(ngModel)]="via">
+                <option value="Oral">Oral</option>
+                <option value="Intravenosa">Intravenosa</option>
+                <option value="Subcutânea">Subcutânea</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-bold text-dark">Posologia / Observações</label>
+            <textarea class="form-control" rows="3" placeholder="Ex: Administrar 1 ampola a cada 8 horas em caso de dor forte..." name="posologia" [(ngModel)]="posologia"></textarea>
+          </div>
+
+          <div class="d-flex align-items-center gap-3 bg-light p-3 rounded mb-4">
+            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">JS</div>
+            <div class="lh-1">
+              <span class="d-block fw-bold small">Assinado digitalmente por</span>
+              <span class="text-success fw-bold">Dr. João Silva - CRM/PB 12345</span>
+            </div>
+            <i class="bi bi-patch-check-fill text-success fs-4 ms-auto"></i>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="button" routerLink="/pacientes" class="btn btn-light flex-grow-1">Cancelar</button>
+            <button type="button" class="btn btn-success flex-grow-1" (click)="imprimir()">
+              <i class="bi bi-printer-fill me-2"></i>Salvar e Imprimir
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

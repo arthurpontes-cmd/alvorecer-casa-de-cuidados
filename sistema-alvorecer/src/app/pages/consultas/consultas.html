@@ -1,0 +1,87 @@
+<nav class="navbar navbar-expand-lg bg-white px-4 py-3 mb-4 shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/dashboard" style="cursor: pointer;">
+      <div class="bg-warning bg-opacity-25 rounded-circle p-2 text-warning">
+        <i class="bi bi-sunrise-fill fs-5"></i>
+      </div>
+      <span class="fw-bold text-success">Sistema Alvorecer</span>
+    </a>
+  </div>
+</nav>
+
+<div class="container px-4 pb-5">
+  
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <button routerLink="/dashboard" class="btn btn-light rounded-circle shadow-sm" style="width: 40px; height: 40px;">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    <h4 class="text-success fw-bold m-0">Agenda de Consultas</h4>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="card-custom p-4">
+        <h5 class="fw-bold text-success mb-4">Cronograma do Dia ({{ dataHoje }})</h5>
+
+        <div class="vstack gap-3">
+          
+          <div *ngFor="let c of listaConsultas" 
+               class="d-flex align-items-center p-3 rounded-3 border"
+               [ngClass]="c.concluida ? 'bg-light opacity-75' : 'bg-white shadow-sm border-warning'">
+            
+            <div class="me-4 text-center">
+              <h5 class="fw-bold m-0 text-dark">{{ c.hora }}</h5>
+              <small class="text-muted">h</small>
+            </div>
+
+            <div class="flex-grow-1">
+              <h6 class="fw-bold m-0 text-dark">
+                {{ c.paciente }} 
+                <span *ngIf="c.concluida" class="badge bg-success ms-2">Concluída</span>
+              </h6>
+              <small class="text-muted">{{ c.tipo }} • Leito {{ c.leito }}</small>
+            </div>
+
+            <button *ngIf="!c.concluida" 
+                    class="btn btn-outline-success btn-sm rounded-pill px-3"
+                    (click)="concluirConsulta(c)">
+              <i class="bi bi-check-lg me-1"></i> Finalizar
+            </button>
+             <button *ngIf="c.concluida" 
+                    class="btn btn-light btn-sm rounded-pill px-3 text-muted" disabled>
+              <i class="bi bi-check-all me-1"></i> Feito
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card-custom p-4 bg-warning bg-opacity-10 h-100 border border-warning">
+        <h5 class="fw-bold text-dark mb-3">Resumo</h5>
+        <div class="d-flex justify-content-between mb-2">
+          <span>Total Agendado:</span>
+          <strong>{{ listaConsultas.length }}</strong>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+          <span>Concluídas:</span>
+          <strong class="text-success">{{ contarConcluidas() }}</strong>
+        </div>
+        <div class="d-flex justify-content-between">
+          <span>Pendentes:</span>
+          <strong class="text-danger">{{ listaConsultas.length - contarConcluidas() }}</strong>
+        </div>
+        
+        <hr class="border-warning opacity-25">
+        
+        <div class="alert alert-light border-0 small text-muted">
+          <i class="bi bi-info-circle-fill me-1 text-warning"></i>
+          Lembre-se de registrar a evolução no prontuário após cada consulta.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

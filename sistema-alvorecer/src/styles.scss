@@ -1,0 +1,116 @@
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+:root {
+  --alvorecer-bg: #f3fcf6;
+  --alvorecer-primary: #28a745;
+  --alvorecer-text: #2c3e50;
+  --card-radius: 16px;
+}
+
+body {
+  background-color: var(--alvorecer-bg);
+  color: var(--alvorecer-text);
+  font-family: 'Segoe UI', sans-serif;
+  height: 100vh;
+  margin: 0;
+}
+
+.card-custom {
+  background-color: white;
+  border: none;
+  border-radius: var(--card-radius);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-control {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+
+.btn-success {
+  background-color: var(--alvorecer-primary);
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px; 
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hover-effect:hover {
+  background-color: rgba(0,0,0,0.03);
+}
+
+.dropdown-item:active {
+  background-color: var(--alvorecer-primary);
+  color: white !important;
+}
+.dropdown-item:active i {
+  color: white !important;
+}
+
+@media print {
+  nav, .navbar, .btn, button, .bi-arrow-left {
+    display: none !important;
+  }
+
+  .d-flex.align-items-center.gap-3.mb-4:not(.bg-light) {
+    display: none !important;
+  }
+
+ 
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background-color: white !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  .card-custom {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 20px !important;
+  }
+
+  .bg-light {
+    background-color: #f0f0f0 !important;
+    border: 1px solid #ddd !important;
+  }
+  
+  .bg-success {
+    background-color: #28a745 !important;
+    color: white !important;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .text-success {
+    color: #28a745 !important;
+  }
+  
+  .bi-patch-check-fill {
+    display: inline-block !important;
+    color: #28a745 !important;
+  }
+}

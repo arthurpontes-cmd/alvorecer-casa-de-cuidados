@@ -1,0 +1,73 @@
+<nav class="navbar navbar-expand-lg bg-white px-4 py-3 mb-4 shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/dashboard" style="cursor: pointer;">
+      <div class="bg-warning bg-opacity-25 rounded-circle p-2 text-warning">
+        <i class="bi bi-sunrise-fill fs-5"></i>
+      </div>
+      <span class="fw-bold text-success">Sistema Alvorecer</span>
+    </a>
+    
+    <div class="d-flex align-items-center gap-3">
+      <div class="text-end d-none d-md-block lh-1">
+        <span class="d-block fw-bold small">Dr. João Silva</span>
+        <small class="text-success">Médico Plantonista</small>
+      </div>
+      <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">JS</div>
+    </div>
+  </div>
+</nav>
+
+<div class="container px-4 pb-5">
+  
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h4 class="text-success fw-bold m-0">Pacientes Internados</h4>
+      <small class="text-muted">Gerenciamento de leitos e cuidados</small>
+    </div>
+    <button class="btn btn-success px-4" style="width: auto;" routerLink="/admissao">
+  <i class="bi bi-plus-lg me-2"></i>Novo Paciente
+</button>
+  </div>
+
+  <div class="row g-4">
+    
+    <div class="col-md-6 col-lg-4" *ngFor="let p of listaPacientes">
+      <div class="card-custom h-100 p-0 overflow-hidden">
+        
+        <div class="p-3 d-flex justify-content-between align-items-center bg-light border-bottom">
+          <span class="fw-bold text-muted">Quarto {{ p.quarto }}</span>
+          <span class="badge rounded-pill px-3" 
+                [ngClass]="{
+                  'bg-success bg-opacity-25 text-success': p.status === 'Estável',
+                  'bg-warning bg-opacity-25 text-warning': p.status === 'Atenção',
+                  'bg-danger bg-opacity-25 text-danger': p.status === 'Crítico'
+                }">
+            {{ p.status }}
+          </span>
+        </div>
+
+        <div class="p-4">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center fs-4 fw-bold" style="width: 50px; height: 50px;">
+              {{ p.nome.charAt(0) }}
+            </div>
+            <div>
+              <h5 class="fw-bold m-0 text-dark">{{ p.nome }}</h5>
+              <small class="text-muted">{{ p.idade }} anos • {{ p.diagnostico }}</small>
+            </div>
+          </div>
+
+          <p class="small text-muted bg-light p-2 rounded fst-italic">
+            "{{ p.observacao }}"
+          </p>
+
+          <div class="d-flex justify-content-between mt-4">
+            <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" [routerLink]="['/prontuario', p.id]"> Ver Prontuário</button>
+            <button class="btn btn-outline-success btn-sm rounded-pill px-3" routerLink="/prescricao"> Prescrever </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

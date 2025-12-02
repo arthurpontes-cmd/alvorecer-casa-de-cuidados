@@ -1,0 +1,190 @@
+<nav class="navbar navbar-expand-lg bg-white px-4 py-3 mb-4 shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/dashboard" style="cursor: pointer;">
+      <div class="bg-warning bg-opacity-25 rounded-circle p-2 text-warning">
+        <i class="bi bi-sunrise-fill fs-5"></i>
+      </div>
+      <span class="fw-bold text-success">Sistema Alvorecer</span>
+    </a>
+  </div>
+</nav>
+
+<div class="container px-4 pb-5">
+  
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <button routerLink="/pacientes" class="btn btn-light rounded-circle shadow-sm" style="width: 40px; height: 40px;">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    <h4 class="text-success fw-bold m-0">Prontuário Eletrônico</h4>
+  </div>
+
+  <div class="row g-4">
+    
+    <div class="col-lg-3">
+      <div class="card-custom p-4 text-center h-100">
+        
+        <div [class]="'text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3 ' + (statusPaciente === 'Óbito Confirmado' ? 'bg-secondary' : 'bg-success')" 
+             style="width: 80px; height: 80px; font-size: 2rem;">
+          <i *ngIf="statusPaciente === 'Óbito Confirmado'" class="bi bi-flower1"></i>
+          <span *ngIf="statusPaciente !== 'Óbito Confirmado'">{{ paciente.nome?.charAt(0) }}</span>
+        </div>
+
+        <h5 class="fw-bold mb-1">{{ paciente.nome }}</h5>
+        <p class="text-muted small">{{ paciente.idade }} anos • Leito {{ paciente.quarto }}</p>
+        
+        <div class="mb-3">
+          <span class="badge" [ngClass]="corStatus">{{ statusPaciente }}</span>
+        </div>
+        
+        <div class="text-start mt-4">
+          <div class="mb-3">
+            <label class="small fw-bold text-muted d-block">Diagnóstico</label>
+            <span class="badge bg-danger bg-opacity-10 text-danger text-wrap">{{ paciente.diagnostico }}</span>
+          </div>
+          <div class="mb-3">
+            <label class="small fw-bold text-muted d-block">Tipo Sanguíneo</label>
+            <span class="fw-bold text-dark">{{ paciente.sanguineo }}</span>
+          </div>
+          <div class="mb-3">
+            <label class="small fw-bold text-muted d-block">Alergias</label>
+            <span *ngFor="let alergia of paciente.alergias" class="badge bg-warning text-dark me-1 mb-1">
+              {{ alergia }}
+            </span>
+          </div>
+        </div>
+        
+        <hr>
+        
+        <button class="btn btn-outline-success w-100 mb-2" (click)="contatarFamilia()">
+          <i class="bi bi-telephone-fill me-2"></i>Contatar Família
+        </button>
+        <button class="btn btn-outline-danger w-100" (click)="registrarObito()">
+          <i class="bi bi-heart-break-fill me-2"></i>Registrar Óbito
+        </button>
+      </div>
+    </div>
+
+    <div class="col-lg-9">
+      <div class="card-custom p-4 h-100">
+        
+        <ul class="nav nav-pills mb-4 border-bottom pb-3" style="cursor: pointer;">
+          <li class="nav-item">
+            <a class="nav-link" [class.active]="abaAtual === 'evolucao'" 
+               [class.bg-success]="abaAtual === 'evolucao'"
+               [class.text-dark]="abaAtual !== 'evolucao'"
+               (click)="trocarAba('evolucao')">Evolução Diária</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [class.active]="abaAtual === 'sinais'"
+               [class.bg-success]="abaAtual === 'sinais'" 
+               [class.text-dark]="abaAtual !== 'sinais'"
+               (click)="trocarAba('sinais')">Sinais Vitais</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [class.active]="abaAtual === 'exames'"
+               [class.bg-success]="abaAtual === 'exames'"
+               [class.text-dark]="abaAtual !== 'exames'"
+               (click)="trocarAba('exames')">Exames</a>
+          </li>
+        </ul>
+
+        <div *ngIf="abaAtual === 'evolucao'">
+          <h5 class="fw-bold text-success mb-3">Linha do Tempo (Hoje)</h5>
+          
+          <div class="vstack gap-3" style="max-height: 400px; overflow-y: auto;">
+            
+            <div class="d-flex gap-3" *ngFor="let ev of paciente.historicoEvolucao">
+              <div class="d-flex flex-column align-items-center">
+                <span class="badge bg-light text-dark border">{{ ev.hora }}</span>
+                <div class="h-100 border-start border-2 mt-2" style="min-height: 20px;"></div>
+              </div>
+              <div class="card-custom p-3 bg-light w-100">
+                <div class="d-flex justify-content-between">
+                  <h6 class="fw-bold m-0">{{ ev.titulo }}</h6>
+                  <small class="text-muted">{{ ev.responsavel }}</small>
+                </div>
+                <p class="small text-muted m-0 mt-1">{{ ev.desc }}</p>
+              </div>
+            </div>
+
+            <div *ngIf="!paciente.historicoEvolucao?.length" class="text-center text-muted py-5">
+              Nenhuma evolução registrada hoje.
+            </div>
+
+          </div>
+
+          <div class="mt-4 pt-3 border-top">
+            <label class="form-label fw-bold text-success">Adicionar Evolução</label>
+            <div class="d-flex gap-2">
+              <input type="text" class="form-control" [(ngModel)]="novaEvolucaoTexto" placeholder="Descreva o procedimento ou observação...">
+              <button class="btn btn-success px-4" (click)="salvarEvolucao()">Salvar</button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="abaAtual === 'sinais'">
+          <h5 class="fw-bold text-success mb-3">Histórico de Sinais Vitais</h5>
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>Hora</th>
+                <th>Pressão (PA)</th>
+                <th>Freq. Cardíaca</th>
+                <th>Temp.</th>
+                <th>Saturação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>14:00</strong></td>
+                <td>120/80 mmHg</td>
+                <td>72 bpm</td>
+                <td>36.5°C</td>
+                <td><span class="badge bg-success">98%</span></td>
+              </tr>
+              <tr>
+                <td><strong>10:00</strong></td>
+                <td>130/85 mmHg</td>
+                <td>75 bpm</td>
+                <td>36.8°C</td>
+                <td><span class="badge bg-success">97%</span></td>
+              </tr>
+              <tr>
+                <td><strong>08:00</strong></td>
+                <td>110/70 mmHg</td>
+                <td>68 bpm</td>
+                <td>36.2°C</td>
+                <td><span class="badge bg-success">99%</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn btn-outline-success btn-sm mt-3">+ Registrar Aferição</button>
+        </div>
+
+        <div *ngIf="abaAtual === 'exames'">
+          <h5 class="fw-bold text-success mb-3">Exames Recentes</h5>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="border rounded p-3 text-center bg-light">
+                <i class="bi bi-file-earmark-pdf fs-1 text-danger"></i>
+                <h6 class="mt-2 mb-0">Hemograma.pdf</h6>
+                <small class="text-muted">10/11/2025</small>
+                <button class="btn btn-sm btn-outline-secondary w-100 mt-2">Visualizar</button>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="border rounded p-3 text-center bg-light">
+                <i class="bi bi-file-earmark-image fs-1 text-primary"></i>
+                <h6 class="mt-2 mb-0">Raio-X Torax.jpg</h6>
+                <small class="text-muted">08/11/2025</small>
+                <button class="btn btn-sm btn-outline-secondary w-100 mt-2">Visualizar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
